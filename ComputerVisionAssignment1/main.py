@@ -1,5 +1,8 @@
+import glob
+import string
+
 import numpy as np
-import os
+from os import path
 import cv2 as cv
 from PIL import ImageFilter
 from PIL import Image
@@ -36,45 +39,50 @@ def noisetype(noise_type, image):
     return plt
 
 
-def filter(filter_type, image):
-    img = cv.imread(image)
-
-    if filter_type == "mean":
-        new_image = cv.blur(img, (9, 9))
-        plt.imshow(new_image[..., ::-1]), plt.title('Mean')
-        plt.savefig('(%s)_mean.jpg' % image, dpi=300)
-        plt.show()
-        return plt
-    elif filter_type == "gaussblur":
-        new_image = cv.GaussianBlur(img, (9, 9), 0)
-        plt.imshow(new_image[..., ::-1]), plt.title('Gaussian Blur')
-        plt.savefig('(%s)_gaussian_blur.jpg' % image, dpi=300)
-        plt.show()
-        return plt
-    elif filter_type == "median":
-        new_image = cv.medianBlur(img, (9, 9))
-        plt.imshow(new_image[..., ::-1]), plt.title('Median Filter')
-        plt.savefig('(%s)_median_filter.jpg' % image, dpi=300)
-        plt.show()
-        return plt
-    elif filter_type == "laplacian":
-        new_image = cv.Laplacian(img, cv.CV_64F)
-        plt.imshow(img + new_image[..., ::-1]), plt.title('Laplacian')
-        plt.savefig('(%s)_laplacian.jpg' % image, dpi=300)
-        plt.show()
-        return plt
-    elif filter_type == "unsharp":
-        img = img[..., ::-1]
-        img = Image.fromarray(img.astype('uint8'))
-        new_image = img.filter(ImageFilter.UnsharpMask(radius=2, percent=150))
-        plt.imshow(new_image), plt.title('unsharp')
-        plt.savefig('(%s)_unsharp.jpg' % image, dpi=300)
-        plt.show()
-        return plt
-    else:
-        print("invalid filter type")
+def filter(filter_type):
+    images = []
+    for imagepath in glob.glob("mohaymen/mountain/*.jpg"):
+        images.append(imagepath)
+    count = 0
+    outpath = "mohaymen/mountain/%s" % filter_type
+    for img in images:
+        img2 = cv.imread(img)
+        if filter_type == "mean":
+            new_image = cv.blur(img2, (9, 9))
+            plt.imshow(new_image[..., ::-1]), plt.title('Mean')
+            plt.savefig(path.join(outpath, "%d_mean.jpg" % count))
+            plt.show()
+            count += 1
+        elif filter_type == "gaussblur":
+            new_image = cv.GaussianBlur(img2, (9, 9), 0)
+            plt.imshow(new_image[..., ::-1]), plt.title('Gaussian Blur')
+            plt.savefig(path.join(outpath, "%d_gaussian_blur.jpg" % count))
+            plt.show()
+            count += 1
+        elif filter_type == "median":
+            new_image = cv.medianBlur(img2, 9)
+            plt.imshow(new_image[..., ::-1]), plt.title('Median Filter')
+            plt.savefig(path.join(outpath, "%d_median_filter.jpg" % count))
+            plt.show()
+            count += 1
+        elif filter_type == "laplacian":
+            new_image = cv.Laplacian(img2, cv.CV_64F)
+            plt.imshow(img2 + new_image[..., ::-1]), plt.title('Laplacian')
+            plt.savefig(path.join(outpath, "%d_laplacian.jpg" % count))
+            plt.show()
+            count += 1
+        elif filter_type == "unsharp":
+            img2 = img2[..., ::-1]
+            img2 = Image.fromarray(img2.astype('uint8'))
+            new_image = img2.filter(ImageFilter.UnsharpMask(radius=2, percent=150))
+            plt.imshow(new_image), plt.title('unsharp')
+            plt.savefig(path.join(outpath, "%d_unsharp.jpg" % count))
+            plt.show()
+            count += 1
+        else:
+            print("invalid filter type")
     return plt
 
 
 # noisetype("spectacle", "mountain.jpg")
-filter("unsharp", "(cloud.jpg)_gaussian.jpg")
+filter("unsharp")
