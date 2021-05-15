@@ -1,7 +1,4 @@
 import glob
-import string
-
-import numpy as np
 from os import path
 import cv2 as cv
 from PIL import ImageFilter
