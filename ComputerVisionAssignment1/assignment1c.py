@@ -1,7 +1,28 @@
 import cv2
+import numpy as np
 from cv2 import COLOR_BGR2LAB, COLOR_RGB2Lab
 from matplotlib import pyplot as plt
 
+""""
+img = cv2.imread('wiki.jpg',0)
+
+hist,bins = np.histogram(img.flatten(),256,[0,256])
+
+cdf = hist.cumsum()
+cdf_normalized = cdf * hist.max()/ cdf.max()
+
+plt.plot(cdf_normalized, color = 'b')
+plt.hist(img.flatten(),256,[0,256], color = 'r')
+plt.xlim([0,256])
+plt.legend(('cdf','histogram'), loc = 'upper left')
+plt.show()
+
+cdf_m = np.ma.masked_equal(cdf,0)
+cdf_m = (cdf_m - cdf_m.min())*255/(cdf_m.max()-cdf_m.min())
+cdf = np.ma.filled(cdf_m,0).astype('uint8')
+
+img2 = cdf[img]
+"""
 
 image = cv2.imread("mohaymen/Low contrast Image.jpg")
 lab = cv2.cvtColor(image, COLOR_BGR2LAB)
@@ -16,5 +37,4 @@ cl1 = clahe.apply(l)
 newimg = cv2.merge([cl1, a, b])
 convert2 = cv2.cvtColor(newimg, COLOR_RGB2Lab)
 plt.imshow(convert2)
-plt.savefig("mohaymen/high_contrast.jpg")
 plt.show()
