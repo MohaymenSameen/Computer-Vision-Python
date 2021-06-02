@@ -11,7 +11,7 @@ import os
 import cv2
 #%matplotlib inline
 
-generalpath = "/Users/mohaymen/Documents/GitHub/Computer-Vision-Python/ComputerVisionAssignment2/all_test_tubes/"
+generalpath = "/Users/mohaymen/Documents/GitHub/Computer-Vision-Python/ComputerVisionAssignment2/all_test_tubes/SGS/"
 inputpath = os.path.join(generalpath, 'Dset')
 outputpath = os.path.join(generalpath, 'TT')
 
@@ -50,13 +50,13 @@ for subdir, dirs, files in os.walk(inputpath):
             # 4 Cropping
             crop = iaa.Crop(percent=(0, 0.3)) # crop image
             crop_image = crop.augment_image(img)
-            ia.imshow(crop_image)
+            #ia.imshow(crop_image)
             cv2.imwrite(outputfilepath + "_crop.jpg", crop_image)
 
             # 5 Shearing
             shear = iaa.Affine(shear=(5))
             shear_image = shear.augment_image(img)
-            ia.imshow(shear_image)
+            #ia.imshow(shear_image)
             cv2.imwrite(outputfilepath + "_shear.jpg", shear_image)
 
             # 6 Flipping horizontally
@@ -68,7 +68,7 @@ for subdir, dirs, files in os.walk(inputpath):
             # 7 Flip vertically
             flip_vr = iaa.Flipud(p=1.0)
             flip_vr_image= flip_vr.augment_image(img)
-            ia.imshow(flip_vr_image)
+            #ia.imshow(flip_vr_image)
             cv2.imwrite(outputfilepath + "_flip_vr.jpg", flip_vr_image)
 
             # 8 Change brightness
@@ -80,7 +80,7 @@ for subdir, dirs, files in os.walk(inputpath):
             # 9 Scaling image
             scale_im = iaa.Affine(scale={"x": (1.5, 1.0), "y": (1.5, 1.0)})
             scale_image = scale_im.augment_image(img)
-            ia.imshow(scale_image)
+            #ia.imshow(scale_image)
             cv2.imwrite(outputfilepath + "_scaled.jpg", scale_image)
 
             # 10 Blur image
