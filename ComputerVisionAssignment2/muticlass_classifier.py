@@ -5,14 +5,13 @@ from keras.layers import *
 from keras.datasets import cifar10
 from keras.optimizers import *
 from keras.preprocessing.image import ImageDataGenerator
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 from keras.utils import *
 from keras.applications.vgg16 import VGG16
+from image_dataset_loader import load
 
-
-train_data_dir = os.path.dirname(r"output_path\train\Dset")
-validation_data_dir = os.path.dirname(r"output_path\val\Dset")
-
+train_data_dir = os.path.dirname(r"Dataset\TestTubes")
+validation_data_dir = os.path.dirname(r"Dataset\TestTubes")
 
 img_width, img_height = 220, 380
 batch_size = 16
@@ -48,6 +47,22 @@ def define_VGGmodel():
 model = define_VGGmodel()
 model.summary()
 
-model.fit(train_generator, steps_per_epoch=len(train_generator), validation_data=validation_generator, validation_steps=2, epochs=4, verbose=1, shuffle=False)
+history = model.fit(train_generator, steps_per_epoch=len(train_generator), validation_data=validation_generator, validation_steps=2, epochs=4, verbose=1, shuffle=False)
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Model Accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Val'], loc='upper left')
+plt.show()
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model Loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Val'], loc='upper right')
+plt.show()
 
 print("Evalutation completed")
+
