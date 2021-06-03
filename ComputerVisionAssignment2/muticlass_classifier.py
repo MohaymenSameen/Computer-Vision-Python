@@ -42,11 +42,12 @@ def define_VGGmodel():
     output = Dense(8, activation='softmax')(class1)
     model = Model(inputs=model.inputs, outputs=output)
     opt = SGD(lr=0.001, momentum=0.9)
-    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['cateogrical_accuracy'])
+    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
     return model
 
 model = define_VGGmodel()
 model.summary()
 
 model.fit(train_generator, steps_per_epoch=len(train_generator), validation_data=validation_generator, validation_steps=2, epochs=4, verbose=1, shuffle=False)
-model.evaluate()
+
+print("Evalutation completed")
